@@ -9591,7 +9591,7 @@ p {
   letter-spacing: 1px;
   line-height: 0; }
   .logo svg {
-    height: 26px; }
+    height: 80px; }
 
 @media (min-width: 992px) {
   #topnav .navigation-menu {
