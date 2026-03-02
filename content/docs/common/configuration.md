@@ -402,6 +402,77 @@ func main() {
 }
 ```
 
+## Custom Loaders
+
+You can create your own loader by implementing the `core.Loader[*T]` interface — a single method:
+
+```go
+type Loader[T any] interface {
+    Load(T) error
+}
+```
+
+Any struct with a `Load(*YourConfig) error` method is a valid loader and can be passed to `config.New[T]()`.
+
+### Example: Remote Config (HTTP)
+
+Fetch configuration from a remote HTTP endpoint:
+
+```go
+package loader
+
+import (
+    "encoding/json"
+    "fmt"
+    "net/http"
+)
+
+type RemoteLoader struct {
+    url string
+}
+
+func NewRemoteLoader(url string) *RemoteLoader {
+    return &RemoteLoader{url: url}
+}
+
+func (r *RemoteLoader) Load(dst interface{}) error {
+    resp, err := http.Get(r.url)
+    if err != nil {
+        return fmt.Errorf("remote config fetch failed: %w", err)
+    }
+    defer resp.Body.Close()
+
+    if resp.StatusCode != http.StatusOK {
+        return fmt.Errorf("remote config returned status %d", resp.StatusCode)
+    }
+
+    if err := json.NewDecoder(resp.Body).Decode(dst); err != nil {
+        return fmt.Errorf("remote config decode failed: %w", err)
+    }
+
+    return nil
+}
+```
+
+**Usage:**
+
+```go
+cfg := config.New[AppConfig](
+    loader.NewFileLoader("config.yaml", "yaml"),    // defaults from file
+    loader.NewRemoteLoader("https://config.example.com/app"), // remote overrides
+    loader.NewEnvLoader("APP").WithAutoKeys(AppConfig{}),     // env has final say
+)
+```
+
+### Loader Checklist
+
+| Requirement | Notes |
+|-------------|-------|
+| Implement `Load(*T) error` | The only required method |
+| Fill `dst` fields, leave zero values untouched | Lets `DefaultMerge` preserve lower-priority values |
+| Return a descriptive error | Wrap with `fmt.Errorf("...: %w", err)` for context |
+| Be safe to call multiple times | `Config.Load()` may call each loader once per `Load()` invocation |
+
 ## API Reference
 
 ### `config.New[T]`
