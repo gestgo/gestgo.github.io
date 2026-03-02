@@ -1,6 +1,6 @@
 ---
 title: "Core"
-description: "Kiến thức và kỹ năng cần thiết cho Software Architect"
+description: "Core"
 lead: "Core"
 date: 2025-10-05T00:00:00+00:00
 lastmod: 2025-10-05T00:00:00+00:00
