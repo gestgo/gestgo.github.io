@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Docs on Lotus Docs Example Site</title><link>https://gestgo.github.io/docs/</link><description>Recent content in Docs on Lotus Docs Example Site</description><generator>Hugo</generator><language>en-GB</language><lastBuildDate>Wed, 03 May 2023 22:37:22 +0100</lastBuildDate><atom:link href="https://gestgo.github.io/docs/index.xml" rel="self" type="application/rss+xml"/><item><title>Introduction</title><link>https://gestgo.github.io/docs/quickstart/</link><pubDate>Wed, 03 May 2023 22:37:22 +0100</pubDate><guid>https://gestgo.github.io/docs/quickstart/</guid><description>&lt;h2 id="what-is-gest"&gt;What is Gest? &lt;a href="#what-is-gest" class="anchor" aria-hidden="true"&gt;&lt;i class="material-icons align-middle"&gt;link&lt;/i&gt;&lt;/a&gt;&lt;/h2&gt;&lt;p&gt;Gest is a framework for building efficient, high-performance, and scalable server-side applications in Golang. It is designed to provide a clear and structured development experience, similar to how NestJS structures Node.js applications and how Spring Boot organizes the Java ecosystem.&lt;/p&gt;
+&lt;p&gt;Gest embraces the following principles:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Dependency Injection (DI)&lt;/strong&gt;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Modular Architecture&lt;/strong&gt;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Inversion of Control (IoC)&lt;/strong&gt;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Layered &amp;amp; Clean Architecture&lt;/strong&gt;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;OOP-oriented thinking&lt;/strong&gt; while remaining idiomatic to Go&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="what-gest-is-not"&gt;What Gest Is Not &lt;a href="#what-gest-is-not" class="anchor" aria-hidden="true"&gt;&lt;i class="material-icons align-middle"&gt;link&lt;/i&gt;&lt;/a&gt;&lt;/h2&gt;&lt;p&gt;Unlike frameworks that primarily focus on HTTP routing, Gest is &lt;strong&gt;not&lt;/strong&gt; an HTTP wrapper around &lt;code&gt;net/http&lt;/code&gt;.&lt;/p&gt;</description></item></channel></rss>

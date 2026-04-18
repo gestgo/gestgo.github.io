@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Configuration on Lotus Docs Example Site</title><link>https://gestgo.github.io/tags/configuration/</link><description>Recent content in Configuration on Lotus Docs Example Site</description><generator>Hugo</generator><language>en-GB</language><lastBuildDate>Mon, 02 Mar 2026 00:00:00 +0000</lastBuildDate><atom:link href="https://gestgo.github.io/tags/configuration/index.xml" rel="self" type="application/rss+xml"/><item><title>Config</title><link>https://gestgo.github.io/docs/common/configuration/</link><pubDate>Mon, 02 Mar 2026 00:00:00 +0000</pubDate><guid>https://gestgo.github.io/docs/common/configuration/</guid><description>&lt;h2 id="overview"&gt;Overview &lt;a href="#overview" class="anchor" aria-hidden="true"&gt;&lt;i class="material-icons align-middle"&gt;link&lt;/i&gt;&lt;/a&gt;&lt;/h2&gt;&lt;p&gt;The &lt;code&gt;config&lt;/code&gt; package provides a type-safe, generic configuration system that can load and merge settings from multiple sources: files, environment variables, and command-line flags.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Key features:&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Generic &amp;amp; type-safe&lt;/strong&gt; — define your config as a plain Go struct&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Multi-source&lt;/strong&gt; — combine file, env, and flag loaders in any order&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Priority-based merging&lt;/strong&gt; — loaders listed last have the highest priority&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Custom merge strategies&lt;/strong&gt; — deep merge (default) or shallow merge&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Validation&lt;/strong&gt; — validate config after loading&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="installation"&gt;Installation &lt;a href="#installation" class="anchor" aria-hidden="true"&gt;&lt;i class="material-icons align-middle"&gt;link&lt;/i&gt;&lt;/a&gt;&lt;/h2&gt;
+
+
+ 
+ 
+ 
+
+ 
+ 
+ 
+ 
+
+ 
+
+ &lt;div class="prism-codeblock "&gt;
+ &lt;pre id="8d7b3d5" class="language-bash "&gt;
+ &lt;code&gt;go get github.com/gestgo/gest/package/common/config
+go get github.com/gestgo/gest/package/common/config/loader&lt;/code&gt;
+ &lt;/pre&gt;
+ &lt;/div&gt;
+&lt;h2 id="quick-start"&gt;Quick Start &lt;a href="#quick-start" class="anchor" aria-hidden="true"&gt;&lt;i class="material-icons align-middle"&gt;link&lt;/i&gt;&lt;/a&gt;&lt;/h2&gt;
+
+
+ 
+ 
+ 
+
+ 
+ 
+ 
+ 
+
+ 
+
+ &lt;div class="prism-codeblock "&gt;
+ &lt;pre id="a07ffb1" class="language-go "&gt;
+ &lt;code&gt;package main
+
+import (
+ &amp;#34;fmt&amp;#34;
+ &amp;#34;log&amp;#34;
+
+ &amp;#34;github.com/gestgo/gest/package/common/config&amp;#34;
+ &amp;#34;github.com/gestgo/gest/package/common/config/loader&amp;#34;
+)
+
+type AppConfig struct {
+ Server struct {
+ Host string `mapstructure:&amp;#34;host&amp;#34;`
+ Port int `mapstructure:&amp;#34;port&amp;#34;`
+ } `mapstructure:&amp;#34;server&amp;#34;`
+ Database struct {
+ DSN string `mapstructure:&amp;#34;dsn&amp;#34;`
+ } `mapstructure:&amp;#34;database&amp;#34;`
+}
+
+func main() {
+ cfg := config.New[AppConfig](
+ loader.NewFileLoader(&amp;#34;config.yaml&amp;#34;, &amp;#34;yaml&amp;#34;), // lowest priority
+ loader.NewEnvLoader(&amp;#34;APP&amp;#34;).WithAutoKeys(AppConfig{}), // highest priority
+ )
+
+ if err := cfg.Load(); err != nil {
+ log.Fatal(err)
+ }
+
+ appCfg := cfg.Get()
+ fmt.Printf(&amp;#34;Server: %s:%d\n&amp;#34;, appCfg.Server.Host, appCfg.Server.Port)
+}&lt;/code&gt;
+ &lt;/pre&gt;
+ &lt;/div&gt;
+&lt;h2 id="defining-your-config-struct"&gt;Defining Your Config Struct &lt;a href="#defining-your-config-struct" class="anchor" aria-hidden="true"&gt;&lt;i class="material-icons align-middle"&gt;link&lt;/i&gt;&lt;/a&gt;&lt;/h2&gt;&lt;p&gt;Use &lt;code&gt;mapstructure&lt;/code&gt; tags to map config keys to struct fields:&lt;/p&gt;</description></item></channel></rss>

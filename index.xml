@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Lotus Docs Example Site</title><link>https://gestgo.github.io/</link><description>Recent content on Lotus Docs Example Site</description><generator>Hugo</generator><language>en-GB</language><lastBuildDate>Sat, 18 Apr 2026 00:00:00 +0000</lastBuildDate><atom:link href="https://gestgo.github.io/index.xml" rel="self" type="application/rss+xml"/><item><title>Introduction</title><link>https://gestgo.github.io/docs/quickstart/</link><pubDate>Wed, 03 May 2023 22:37:22 +0100</pubDate><guid>https://gestgo.github.io/docs/quickstart/</guid><description>&lt;h2 id="what-is-gest"&gt;What is Gest? &lt;a href="#what-is-gest" class="anchor" aria-hidden="true"&gt;&lt;i class="material-icons align-middle"&gt;link&lt;/i&gt;&lt;/a&gt;&lt;/h2&gt;&lt;p&gt;Gest is a framework for building efficient, high-performance, and scalable server-side applications in Golang. It is designed to provide a clear and structured development experience, similar to how NestJS structures Node.js applications and how Spring Boot organizes the Java ecosystem.&lt;/p&gt;
+&lt;p&gt;Gest embraces the following principles:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Dependency Injection (DI)&lt;/strong&gt;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Modular Architecture&lt;/strong&gt;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Inversion of Control (IoC)&lt;/strong&gt;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Layered &amp;amp; Clean Architecture&lt;/strong&gt;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;OOP-oriented thinking&lt;/strong&gt; while remaining idiomatic to Go&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="what-gest-is-not"&gt;What Gest Is Not &lt;a href="#what-gest-is-not" class="anchor" aria-hidden="true"&gt;&lt;i class="material-icons align-middle"&gt;link&lt;/i&gt;&lt;/a&gt;&lt;/h2&gt;&lt;p&gt;Unlike frameworks that primarily focus on HTTP routing, Gest is &lt;strong&gt;not&lt;/strong&gt; an HTTP wrapper around &lt;code&gt;net/http&lt;/code&gt;.&lt;/p&gt;</description></item><item><title>Config</title><link>https://gestgo.github.io/docs/common/configuration/</link><pubDate>Mon, 02 Mar 2026 00:00:00 +0000</pubDate><guid>https://gestgo.github.io/docs/common/configuration/</guid><description>&lt;h2 id="overview"&gt;Overview &lt;a href="#overview" class="anchor" aria-hidden="true"&gt;&lt;i class="material-icons align-middle"&gt;link&lt;/i&gt;&lt;/a&gt;&lt;/h2&gt;&lt;p&gt;The &lt;code&gt;config&lt;/code&gt; package provides a type-safe, generic configuration system that can load and merge settings from multiple sources: files, environment variables, and command-line flags.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Key features:&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Generic &amp;amp; type-safe&lt;/strong&gt; — define your config as a plain Go struct&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Multi-source&lt;/strong&gt; — combine file, env, and flag loaders in any order&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Priority-based merging&lt;/strong&gt; — loaders listed last have the highest priority&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Custom merge strategies&lt;/strong&gt; — deep merge (default) or shallow merge&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Validation&lt;/strong&gt; — validate config after loading&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="installation"&gt;Installation &lt;a href="#installation" class="anchor" aria-hidden="true"&gt;&lt;i class="material-icons align-middle"&gt;link&lt;/i&gt;&lt;/a&gt;&lt;/h2&gt;
+
+
+ 
+ 
+ 
+
+ 
+ 
+ 
+ 
+
+ 
+
+ &lt;div class="prism-codeblock "&gt;
+ &lt;pre id="8d7b3d5" class="language-bash "&gt;
+ &lt;code&gt;go get github.com/gestgo/gest/package/common/config
+go get github.com/gestgo/gest/package/common/config/loader&lt;/code&gt;
+ &lt;/pre&gt;
+ &lt;/div&gt;
+&lt;h2 id="quick-start"&gt;Quick Start &lt;a href="#quick-start" class="anchor" aria-hidden="true"&gt;&lt;i class="material-icons align-middle"&gt;link&lt;/i&gt;&lt;/a&gt;&lt;/h2&gt;
+
+
+ 
+ 
+ 
+
+ 
+ 
+ 
+ 
+
+ 
+
+ &lt;div class="prism-codeblock "&gt;
+ &lt;pre id="a07ffb1" class="language-go "&gt;
+ &lt;code&gt;package main
+
+import (
+ &amp;#34;fmt&amp;#34;
+ &amp;#34;log&amp;#34;
+
+ &amp;#34;github.com/gestgo/gest/package/common/config&amp;#34;
+ &amp;#34;github.com/gestgo/gest/package/common/config/loader&amp;#34;
+)
+
+type AppConfig struct {
+ Server struct {
+ Host string `mapstructure:&amp;#34;host&amp;#34;`
+ Port int `mapstructure:&amp;#34;port&amp;#34;`
+ } `mapstructure:&amp;#34;server&amp;#34;`
+ Database struct {
+ DSN string `mapstructure:&amp;#34;dsn&amp;#34;`
+ } `mapstructure:&amp;#34;database&amp;#34;`
+}
+
+func main() {
+ cfg := config.New[AppConfig](
+ loader.NewFileLoader(&amp;#34;config.yaml&amp;#34;, &amp;#34;yaml&amp;#34;), // lowest priority
+ loader.NewEnvLoader(&amp;#34;APP&amp;#34;).WithAutoKeys(AppConfig{}), // highest priority
+ )
+
+ if err := cfg.Load(); err != nil {
+ log.Fatal(err)
+ }
+
+ appCfg := cfg.Get()
+ fmt.Printf(&amp;#34;Server: %s:%d\n&amp;#34;, appCfg.Server.Host, appCfg.Server.Port)
+}&lt;/code&gt;
+ &lt;/pre&gt;
+ &lt;/div&gt;
+&lt;h2 id="defining-your-config-struct"&gt;Defining Your Config Struct &lt;a href="#defining-your-config-struct" class="anchor" aria-hidden="true"&gt;&lt;i class="material-icons align-middle"&gt;link&lt;/i&gt;&lt;/a&gt;&lt;/h2&gt;&lt;p&gt;Use &lt;code&gt;mapstructure&lt;/code&gt; tags to map config keys to struct fields:&lt;/p&gt;</description></item><item><title>MCP Extension</title><link>https://gestgo.github.io/docs/extension/mcp/</link><pubDate>Mon, 02 Mar 2026 00:00:00 +0000</pubDate><guid>https://gestgo.github.io/docs/extension/mcp/</guid><description>&lt;h2 id="overview"&gt;Overview &lt;a href="#overview" class="anchor" aria-hidden="true"&gt;&lt;i class="material-icons align-middle"&gt;link&lt;/i&gt;&lt;/a&gt;&lt;/h2&gt;&lt;p&gt;The &lt;code&gt;mcp&lt;/code&gt; extension wraps &lt;a href="https://github.com/mark3labs/mcp-go" rel="external" target="_blank"&gt;mcp-go&lt;svg width="16" height="16" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"&gt;&lt;path fill="currentColor" d="M14 5c-.552 0-1-.448-1-1s.448-1 1-1h6c.552 0 1 .448 1 1v6c0 .552-.448 1-1 1s-1-.448-1-1v-3.586l-7.293 7.293c-.391.39-1.024.39-1.414 0-.391-.391-.391-1.024 0-1.414l7.293-7.293h-3.586zm-9 2c-.552 0-1 .448-1 1v11c0 .552.448 1 1 1h11c.552 0 1-.448 1-1v-4.563c0-.552.448-1 1-1s1 .448 1 1v4.563c0 1.657-1.343 3-3 3h-11c-1.657 0-3-1.343-3-3v-11c0-1.657 1.343-3 3-3h4.563c.552 0 1 .448 1 1s-.448 1-1 1h-4.563z"/&gt;&lt;/svg&gt;&lt;/a&gt; to expose an MCP server inside a Gest application. It integrates with the Fx lifecycle so the server starts and stops automatically with your app.&lt;/p&gt;</description></item><item><title>gRPC Extension</title><link>https://gestgo.github.io/docs/extension/grpc/</link><pubDate>Thu, 16 Apr 2026 00:00:00 +0000</pubDate><guid>https://gestgo.github.io/docs/extension/grpc/</guid><description>&lt;h2 id="overview"&gt;Overview &lt;a href="#overview" class="anchor" aria-hidden="true"&gt;&lt;i class="material-icons align-middle"&gt;link&lt;/i&gt;&lt;/a&gt;&lt;/h2&gt;&lt;p&gt;The &lt;code&gt;grpc&lt;/code&gt; extension wraps &lt;a href="https://pkg.go.dev/google.golang.org/grpc" rel="external" target="_blank"&gt;google.golang.org/grpc&lt;svg width="16" height="16" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"&gt;&lt;path fill="currentColor" d="M14 5c-.552 0-1-.448-1-1s.448-1 1-1h6c.552 0 1 .448 1 1v6c0 .552-.448 1-1 1s-1-.448-1-1v-3.586l-7.293 7.293c-.391.39-1.024.39-1.414 0-.391-.391-.391-1.024 0-1.414l7.293-7.293h-3.586zm-9 2c-.552 0-1 .448-1 1v11c0 .552.448 1 1 1h11c.552 0 1-.448 1-1v-4.563c0-.552.448-1 1-1s1 .448 1 1v4.563c0 1.657-1.343 3-3 3h-11c-1.657 0-3-1.343-3-3v-11c0-1.657 1.343-3 3-3h4.563c.552 0 1 .448 1 1s-.448 1-1 1h-4.563z"/&gt;&lt;/svg&gt;&lt;/a&gt; to run a gRPC server inside a Gest application. It integrates with the Fx lifecycle so the server starts and stops automatically with your app.&lt;/p&gt;</description></item><item><title>Log</title><link>https://gestgo.github.io/docs/common/logger/</link><pubDate>Mon, 02 Mar 2026 00:00:00 +0000</pubDate><guid>https://gestgo.github.io/docs/common/logger/</guid><description>&lt;h2 id="overview"&gt;Overview &lt;a href="#overview" class="anchor" aria-hidden="true"&gt;&lt;i class="material-icons align-middle"&gt;link&lt;/i&gt;&lt;/a&gt;&lt;/h2&gt;&lt;p&gt;The &lt;code&gt;log&lt;/code&gt; package provides a structured, leveled logging system for Gest applications. It is powered by &lt;a href="https://github.com/uber-go/zap" rel="external" target="_blank"&gt;Uber Zap&lt;svg width="16" height="16" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"&gt;&lt;path fill="currentColor" d="M14 5c-.552 0-1-.448-1-1s.448-1 1-1h6c.552 0 1 .448 1 1v6c0 .552-.448 1-1 1s-1-.448-1-1v-3.586l-7.293 7.293c-.391.39-1.024.39-1.414 0-.391-.391-.391-1.024 0-1.414l7.293-7.293h-3.586zm-9 2c-.552 0-1 .448-1 1v11c0 .552.448 1 1 1h11c.552 0 1-.448 1-1v-4.563c0-.552.448-1 1-1s1 .448 1 1v4.563c0 1.657-1.343 3-3 3h-11c-1.657 0-3-1.343-3-3v-11c0-1.657 1.343-3 3-3h4.563c.552 0 1 .448 1 1s-.448 1-1 1h-4.563z"/&gt;&lt;/svg&gt;&lt;/a&gt; and exposes a clean, interface-driven API that supports multiple logging styles:&lt;/p&gt;</description></item><item><title>Lifecycle</title><link>https://gestgo.github.io/docs/core/lifecycle/</link><pubDate>Mon, 02 Mar 2026 00:00:00 +0000</pubDate><guid>https://gestgo.github.io/docs/core/lifecycle/</guid><description>&lt;h2 id="overview"&gt;Overview &lt;a href="#overview" class="anchor" aria-hidden="true"&gt;&lt;i class="material-icons align-middle"&gt;link&lt;/i&gt;&lt;/a&gt;&lt;/h2&gt;&lt;p&gt;The &lt;code&gt;lifecycle&lt;/code&gt; package manages the startup and shutdown of adapters (HTTP, gRPC, Kafka, etc.) and provides a dynamic route registration system for controllers — all integrated with the &lt;a href="https://github.com/uber-go/fx" rel="external" target="_blank"&gt;Uber Fx&lt;svg width="16" height="16" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"&gt;&lt;path fill="currentColor" d="M14 5c-.552 0-1-.448-1-1s.448-1 1-1h6c.552 0 1 .448 1 1v6c0 .552-.448 1-1 1s-1-.448-1-1v-3.586l-7.293 7.293c-.391.39-1.024.39-1.414 0-.391-.391-.391-1.024 0-1.414l7.293-7.293h-3.586zm-9 2c-.552 0-1 .448-1 1v11c0 .552.448 1 1 1h11c.552 0 1-.448 1-1v-4.563c0-.552.448-1 1-1s1 .448 1 1v4.563c0 1.657-1.343 3-3 3h-11c-1.657 0-3-1.343-3-3v-11c0-1.657 1.343-3 3-3h4.563c.552 0 1 .448 1 1s-.448 1-1 1h-4.563z"/&gt;&lt;/svg&gt;&lt;/a&gt; dependency injection container.&lt;/p&gt;</description></item><item><title>Health Check</title><link>https://gestgo.github.io/docs/technique/health/</link><pubDate>Sat, 18 Apr 2026 00:00:00 +0000</pubDate><guid>https://gestgo.github.io/docs/technique/health/</guid><description>&lt;h2 id="overview"&gt;Overview &lt;a href="#overview" class="anchor" aria-hidden="true"&gt;&lt;i class="material-icons align-middle"&gt;link&lt;/i&gt;&lt;/a&gt;&lt;/h2&gt;&lt;p&gt;The &lt;code&gt;health&lt;/code&gt; package provides a structured health-check system for Go applications. It is inspired by the &lt;a href="https://docs.nestjs.com/recipes/terminus" rel="external" target="_blank"&gt;nestjs/terminus&lt;svg width="16" height="16" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"&gt;&lt;path fill="currentColor" d="M14 5c-.552 0-1-.448-1-1s.448-1 1-1h6c.552 0 1 .448 1 1v6c0 .552-.448 1-1 1s-1-.448-1-1v-3.586l-7.293 7.293c-.391.39-1.024.39-1.414 0-.391-.391-.391-1.024 0-1.414l7.293-7.293h-3.586zm-9 2c-.552 0-1 .448-1 1v11c0 .552.448 1 1 1h11c.552 0 1-.448 1-1v-4.563c0-.552.448-1 1-1s1 .448 1 1v4.563c0 1.657-1.343 3-3 3h-11c-1.657 0-3-1.343-3-3v-11c0-1.657 1.343-3 3-3h4.563c.552 0 1 .448 1 1s-.448 1-1 1h-4.563z"/&gt;&lt;/svg&gt;&lt;/a&gt; architecture and translated into idiomatic Go using interfaces, structs, and constructor injection — without NestJS class/module patterns.&lt;/p&gt;</description></item></channel></rss>
