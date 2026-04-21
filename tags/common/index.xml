@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Common on Lotus Docs Example Site</title><link>https://gestgo.github.io/tags/common/</link><description>Recent content in Common on Lotus Docs Example Site</description><generator>Hugo</generator><language>en-GB</language><lastBuildDate>Tue, 21 Apr 2026 00:00:00 +0000</lastBuildDate><atom:link href="https://gestgo.github.io/tags/common/index.xml" rel="self" type="application/rss+xml"/><item><title>Version</title><link>https://gestgo.github.io/docs/common/version/</link><pubDate>Tue, 21 Apr 2026 00:00:00 +0000</pubDate><guid>https://gestgo.github.io/docs/common/version/</guid><description>&lt;h2 id="overview"&gt;Overview &lt;a href="#overview" class="anchor" aria-hidden="true"&gt;&lt;i class="material-icons align-middle"&gt;link&lt;/i&gt;&lt;/a&gt;&lt;/h2&gt;&lt;p&gt;The &lt;code&gt;version&lt;/code&gt; package provides build metadata (version, commit, branch, extra) to your application at runtime. &lt;code&gt;Extra&lt;/code&gt; is &lt;strong&gt;generic&lt;/strong&gt; — you define your own typed struct and inject its fields via &lt;code&gt;ldflags&lt;/code&gt;, giving you full type safety with zero runtime JSON parsing.&lt;/p&gt;
+&lt;table&gt;
+ &lt;thead&gt;
+ &lt;tr&gt;
+ &lt;th&gt;Source&lt;/th&gt;
+ &lt;th&gt;How&lt;/th&gt;
+ &lt;th&gt;When to use&lt;/th&gt;
+ &lt;/tr&gt;
+ &lt;/thead&gt;
+ &lt;tbody&gt;
+ &lt;tr&gt;
+ &lt;td&gt;Framework vars&lt;/td&gt;
+ &lt;td&gt;&lt;code&gt;-X '...version.Version=1.2.3'&lt;/code&gt;&lt;/td&gt;
+ &lt;td&gt;Version, commit, branch, build time&lt;/td&gt;
+ &lt;/tr&gt;
+ &lt;tr&gt;
+ &lt;td&gt;App-defined vars&lt;/td&gt;
+ &lt;td&gt;&lt;code&gt;-X 'main.Env=prod'&lt;/code&gt;&lt;/td&gt;
+ &lt;td&gt;Your own typed metadata&lt;/td&gt;
+ &lt;/tr&gt;
+ &lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;&lt;strong&gt;Output example:&lt;/strong&gt;&lt;/p&gt;
+
+
+
+ 
+ 
+ 
+
+ 
+ 
+ 
+ 
+
+ 
+
+ &lt;div class="prism-codeblock "&gt;
+ &lt;pre id="e2c4a58" class="language- "&gt;
+ &lt;code&gt;┌─────────────────────────────────────────────┐
+│ billing-svc 1.2.3 │
+├─────────────────────────────────────────────┤
+│ Version 1.2.3 │
+│ Branch main │
+│ Commit abc1234 │
+│ Built 2026-04-21T10:00:00Z │
+│ Go go1.24.2 │
+├─────────────────── extra ───────────────────┤
+│ cluster green │
+│ env prod │
+│ service billing │
+└─────────────────────────────────────────────┘&lt;/code&gt;
+ &lt;/pre&gt;
+ &lt;/div&gt;
+&lt;h2 id="installation"&gt;Installation &lt;a href="#installation" class="anchor" aria-hidden="true"&gt;&lt;i class="material-icons align-middle"&gt;link&lt;/i&gt;&lt;/a&gt;&lt;/h2&gt;
+
+
+ 
+ 
+ 
+
+ 
+ 
+ 
+ 
+
+ 
+
+ &lt;div class="prism-codeblock "&gt;
+ &lt;pre id="2486dfb" class="language-bash "&gt;
+ &lt;code&gt;go get github.com/gestgo/gest/package/common/version&lt;/code&gt;
+ &lt;/pre&gt;
+ &lt;/div&gt;
+&lt;h2 id="core-concepts"&gt;Core Concepts &lt;a href="#core-concepts" class="anchor" aria-hidden="true"&gt;&lt;i class="material-icons align-middle"&gt;link&lt;/i&gt;&lt;/a&gt;&lt;/h2&gt;&lt;h3 id="infot"&gt;Info[T] &lt;a href="#infot" class="anchor" aria-hidden="true"&gt;&lt;i class="material-icons align-middle"&gt;link&lt;/i&gt;&lt;/a&gt;&lt;/h3&gt;&lt;p&gt;Generic struct — &lt;code&gt;T&lt;/code&gt; is the type of your extra metadata:&lt;/p&gt;</description></item></channel></rss>
